@@ -13,6 +13,7 @@
     "adldap2/adldap2": "dev-master",
     "guzzlehttp/guzzle": "^7.0",
     "illuminate/contracts": "v7.26.0",
+    "hedii/laravel-gelf-logger": "^5.2",
     "illuminate/redis": "^7.26",
     "intervention/image": "^2.5",
     "laminas/laminas-diactoros": "^2.3",
