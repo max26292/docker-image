@@ -1,0 +1,17 @@
+1. Copy all file and folder into source code and creat .env
+`cp sample.env .env`
+
+2. Run docker
+`docker-compose up -d`
+
+3. Import DB by workbench
+
+4. Access container App (engage_app_1)
+`php artisan passport:install`
+
+5. Access Localhost and login
+```
+http://localhost:80`
+tim.baker@aufc.com.au
+F86Drades#
+```

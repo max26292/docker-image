@@ -1,0 +1,86 @@
+version: '3.8'
+services:
+  db:
+    image: 'mariadb:10.2'
+    restart: unless-stopped
+    tty: true
+    ports:
+      - '3306:3306'
+    env_file:
+      - .env
+    environment:
+      MYSQL_DATABASE: '${DB_DATABASE}'
+      MYSQL_ROOT_PASSWORD: '12345678#'
+      MYSQL_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_USER: '${DB_USERNAME}'
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - './dbdata:/var/lib/mysql/'
+      - './docker-file/config/mysql/my.conf:/etc/mysql/conf.d/my.cnf'
+    networks:
+      app-network:
+        ipv4_address: 172.20.0.2
+  app:
+    build:
+      context: './docker-file'
+      dockerfile: 'php-image.dockerfile'
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - '../engage:/var/www/html'
+    depends_on:
+      - db
+    networks:
+      app-network:
+        ipv4_address: 172.20.0.5
+  webserver:
+    build:
+      context: './docker-file'
+      dockerfile: 'nginx.dockerfile'
+    restart: unless-stopped
+    tty: true
+    ports:
+      - '8080:80'
+      - '8443:443'
+    volumes:
+      - '../engage:/var/www/html'
+    depends_on:
+      - app
+    networks:
+      app-network:
+        ipv4_address: 172.20.0.6
+  redis:
+    image: 'redis:5.0.7'
+    ports:
+      - '6379:6379'
+    networks:
+      app-network:
+        ipv4_address: 172.20.0.3
+  elasticsearch:
+    image: 'elasticsearch:7.1.1'
+    ports:
+      - '9200:9200'
+    environment:
+      - discovery.type=single-node
+    volumes:
+      - 'esdata:/usr/share/elasticsearch/data'
+    networks:
+      app-network:
+        ipv4_address: 172.20.0.4
+networks:
+  app-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+          gateway: 172.20.0.1
+volumes:
+  dbdata:
+    driver: local
+  esdata:
+    driver: local
