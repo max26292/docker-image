@@ -1,4 +1,5 @@
-FROM php:7.3-fpm
+ARG PHP_VER
+FROM php:${PHP_VER}-fpm
 
 ENV APP_HOME /var/www/html
 ENV USERNAME=www-data
@@ -13,6 +14,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
       unzip \
       libicu-dev \
       libpng-dev \
+      libldap2-dev\
       zlib1g-dev \
       libxml2 \
       libxml2-dev \
@@ -28,6 +30,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
       intl \
       opcache \
       zip \
+      mysqli \
     && rm -rf /tmp/* \
     && rm -rf /var/list/apt/* \
     && rm -rf /var/lib/apt/lists/* \
@@ -39,7 +42,13 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
 #install and set extension
 && docker-php-ext-install pdo_mysql zip exif pcntl bcmath gd \ 
 && docker-php-ext-enable xdebug 
-
+# RUN apt-get install update \
+#     && rm -rf /tmp/* \
+#     && rm -rf /var/list/apt/* \
+#     && rm -rf /var/lib/apt/lists/* \
+#     && apt-get clean \
+RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
+docker-php-ext-install ldap
 COPY ./config/php/xdebug.ini /tmp/
 COPY ./config/php/xdebug.sh /tmp/
 RUN chmod u+x /tmp/xdebug.sh && /tmp/xdebug.sh && chown ${USERNAME}:${USERNAME} $APP_HOME \
@@ -55,7 +64,9 @@ RUN chmod u+x /tmp/xdebug.sh && /tmp/xdebug.sh && chown ${USERNAME}:${USERNAME} 
 # ENV COMPOSER_ALLOW_SUPERUSER 1
 COPY ./config/php/www.conf /usr/local/etc/php-fpm.d/www.conf
 COPY ./config/php/local.ini /usr/local/etc/php/php.ini
-
+ARG DB_DATABASE
+ARG DB_PASSWORD
+ARG DB_USERNAME
 WORKDIR $APP_HOME
 USER ${USERNAME}
 
