@@ -4,3 +4,5 @@ DB-Engage/*
 ./nginx
 ./php
 ./initdb/*
+!initdb
+dbdata-mysql/*

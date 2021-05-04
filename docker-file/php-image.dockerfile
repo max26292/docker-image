@@ -6,7 +6,8 @@ ENV USERNAME=www-data
 ARG UID=1000
 ARG GID=1000
 ENV ENV=dev
-
+COPY ./config/php/xdebug.ini /tmp/
+COPY ./config/php/xdebug.sh /tmp/
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
       procps \
       nano \
@@ -30,8 +31,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
       intl \
       opcache \
       zip \
-      mysqli \
-    && rm -rf /tmp/* \
+      mysqli \   
     && rm -rf /var/list/apt/* \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean \
@@ -41,27 +41,17 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
 && pecl install xdebug \
 #install and set extension
 && docker-php-ext-install pdo_mysql zip exif pcntl bcmath gd \ 
-&& docker-php-ext-enable xdebug 
-# RUN apt-get install update \
-#     && rm -rf /tmp/* \
-#     && rm -rf /var/list/apt/* \
-#     && rm -rf /var/lib/apt/lists/* \
-#     && apt-get clean \
-RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
-docker-php-ext-install ldap
-COPY ./config/php/xdebug.ini /tmp/
-COPY ./config/php/xdebug.sh /tmp/
-RUN chmod u+x /tmp/xdebug.sh && /tmp/xdebug.sh && chown ${USERNAME}:${USERNAME} $APP_HOME \
+&& docker-php-ext-enable xdebug \
+&& docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
+docker-php-ext-install ldap \
+&& chmod u+x /tmp/xdebug.sh && /tmp/xdebug.sh && chown ${USERNAME}:${USERNAME} $APP_HOME \
 && mkdir -p $APP_HOME/public && \
     mkdir -p /home/$USERNAME && chown $USERNAME:$USERNAME /home/$USERNAME \
     && usermod -u $UID $USERNAME -d /home/$USERNAME \
     && groupmod -g $GID $USERNAME \
-    && chown -R ${USERNAME}:${USERNAME} $APP_HOME
+    && chown -R ${USERNAME}:${USERNAME} $APP_HOME \
+    && rm -rf /tmp/* 
 
-# # install composer
-# COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-# RUN chmod +x /usr/bin/composer
-# ENV COMPOSER_ALLOW_SUPERUSER 1
 COPY ./config/php/www.conf /usr/local/etc/php-fpm.d/www.conf
 COPY ./config/php/local.ini /usr/local/etc/php/php.ini
 ARG DB_DATABASE
