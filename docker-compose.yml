@@ -1,19 +1,6 @@
 version: '3.8'
 #parent docker
 services:
-  web:
-    build:
-      context: ./docker-file
-      dockerfile: nginx.dockerfile
-    image: 'local/nginx:stable'
-  app:
-    image: 'local/php:${PHP_VER}'
-    container_name: app_fpm
-    build:
-      context: ./docker-file
-      dockerfile: php-image.dockerfile
-      args:
-        PHP_VER: '${PHP_VER}' 
   redis:
     image: 'redis:5.0.7'
     networks:
