@@ -57,6 +57,7 @@ COPY ./config/php/local.ini /usr/local/etc/php/php.ini
 ARG DB_DATABASE
 ARG DB_PASSWORD
 ARG DB_USERNAME
+ARG DB_HOST
 WORKDIR $APP_HOME
 USER ${USERNAME}
 

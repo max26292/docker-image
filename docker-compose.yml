@@ -1,62 +1,23 @@
 version: '3.8'
-
+#parent docker
 services:
-  db:
-    image: 'mysql:5.7'
-    restart: unless-stopped
-    tty: true
-    ports:
-      - '${DB_EXTERNAL_PORT}:3306'
-    environment:
-      MYSQL_DATABASE: '${DB_DATABASE}'
-      MYSQL_ROOT_PASSWORD: '12345678#'
-      MYSQL_PASSWORD: '${DB_PASSWORD}'
-      MYSQL_USER: '${DB_USERNAME}'
-    volumes:
-      - ./dbdata-mysql:/var/lib/mysql/
-      - './docker-file/config/mysql/my.conf:/etc/mysql/conf.d/my.cnf'
-      - './initdb/:/docker-entrypoint-initdb.d./'
-    networks:
-      app-network:
-        ipv4_address: '${IP_PREFIX}.2'
   web:
     build:
       context: ./docker-file
       dockerfile: nginx.dockerfile
     image: 'local/nginx:stable'
-    # restart: unless-stopped
-    tty: true
-    ports:
-      - '81:80'
-    volumes:
-      - ${SOURCE_PATH}:/var/www/html
-    networks:
-      app-network:
-        ipv4_address: '${IP_PREFIX}.4'
-  app_fpm:
+  app:
     image: 'local/php:${PHP_VER}'
     container_name: app_fpm
     build:
       context: ./docker-file
       dockerfile: php-image.dockerfile
       args:
-        PHP_VER: '${PHP_VER}'
-        DB_DATABASE: '${DB_DATABASE}'
-        DB_PASSWORD: '${DB_PASSWORD}'
-        DB_USERNAME: '${DB_USERNAME}'
-    restart: unless-stopped
-    volumes:
-      - ${SOURCE_PATH}:/var/www/html    
-    depends_on:
-      - db
-    networks:
-      app-network:
-        ipv4_address: '${IP_PREFIX}.3'
+        PHP_VER: '${PHP_VER}' 
   redis:
     image: 'redis:5.0.7'
     networks:
-      app-network:
-        ipv4_address: '${IP_PREFIX}.5'  
+      app-network: 
 networks:
   app-network:
     name: app-network
