@@ -42,9 +42,9 @@ services:
       - ${SOURCE_PATH}:/var/www/html
       - ./config/nginx/:/etc/nginx/templates
     environment: 
-      - APP_SERVICE: ${APP_SERVICE}
+      APP_SERVICE: ${APP_SERVICE}
     depends_on: 
-      - app_fpm
+      - app
     networks:
       app-network:
   redis:
