@@ -1,0 +1,3 @@
+#!/bin/bash
+echo $PHP_VER
+PHP_VER=$PHP_VER
