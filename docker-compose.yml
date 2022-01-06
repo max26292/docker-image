@@ -9,7 +9,3 @@ networks:
   app-network:
     name: app-network
     driver: bridge
-    ipam:
-      config:
-        - subnet: '${IP_PREFIX}.0/16'
-          gateway: '${IP_PREFIX}.1'

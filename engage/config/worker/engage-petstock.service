@@ -1,0 +1,14 @@
+[Unit]
+Description=engage-wuhu laravel queue worker
+
+[Service]
+PIDFile=/run/engage-wuhu/pid
+User=www-data
+Group=www-data
+RuntimeDirectory=engage-petstock
+WorkingDirectory=/var/www/htmp
+Restart=on-failure
+ExecStart=/usr/local/bin/php artisan queue:work --tries=3
+
+[Install]
+WantedBy=multi-user.target
