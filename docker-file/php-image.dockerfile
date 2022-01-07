@@ -16,6 +16,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
       libicu-dev \
       libpng-dev \
       libldap2-dev\
+       libldb-dev \
       zlib1g-dev \
       libxml2 \
       libxml2-dev \
@@ -23,6 +24,9 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
       supervisor \
       cron \
       libzip-dev \
+      libfreetype6-dev \
+      libjpeg62-turbo-dev \
+    libpng-dev \
     && docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
     && docker-php-ext-configure intl \
     && docker-php-ext-install \
@@ -40,9 +44,11 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
 && apt-get clean && rm -rf /var/lib/apt/lists/* \
 && pecl install xdebug \
 #install and set extension
-&& docker-php-ext-install pdo_mysql zip exif pcntl bcmath gd \ 
+&& docker-php-ext-configure gd --with-freetype --with-jpeg \
+&& docker-php-ext-install -j$(nproc) gd \
+&& docker-php-ext-install pdo_mysql zip exif pcntl bcmath\ 
 && docker-php-ext-enable xdebug \
-&& docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
+&& docker-php-ext-configure ldap && \
 docker-php-ext-install ldap \
 && chmod u+x /tmp/xdebug.sh && /tmp/xdebug.sh && chown ${USERNAME}:${USERNAME} $APP_HOME \
 && mkdir -p $APP_HOME/public && \
