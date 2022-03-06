@@ -1,4 +1,0 @@
-#!/bin/bash
-echo $PHP_VER
-PHP_VER=$PHP_VER
-docker build --build-arg PHP_VER=$PHP_VER -f $DOCKERFILE_PATH -t $IMAGE_NAME .
