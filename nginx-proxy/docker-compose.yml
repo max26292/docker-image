@@ -1,0 +1,20 @@
+version: '3.8'
+
+services: 
+  web:
+    image: 'max26292/local-nginx:stable'
+    # restart: unless-stopped
+    tty: true
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./config/max26292.tk:/etc/ssl/max26292
+      - ./config/nginx/:/etc/nginx/templates
+    networks:
+      app-network:
+networks:
+  app-network:
+    name: app-network
+    driver: bridge
+    external: true

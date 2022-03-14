@@ -5,9 +5,9 @@ services:
     build:
       context: ./docker-file
       dockerfile: nginx.dockerfile
-    image: 'local/nginx:stable'
+    image: 'max26292/local-nginx:stable'
   app:
-    image: 'local/php:${PHP_VER}'
+    image: 'max26292/local-php:${PHP_VER}'
     container_name: app_fpm
     build:
       context: ./docker-file
@@ -18,7 +18,3 @@ networks:
   app-network:
     name: app-network
     driver: bridge
-    ipam:
-      config:
-        - subnet: '${IP_PREFIX}.0/16'
-          gateway: '${IP_PREFIX}.1'

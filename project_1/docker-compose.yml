@@ -14,12 +14,12 @@ services:
       MYSQL_USER: '${DB_USERNAME}'
     volumes:
       - ./dbdata-mysql:/var/lib/mysql/
-      - './docker-file/config/mysql/my.conf:/etc/mysql/conf.d/my.cnf'
+      - './config/mysql/my.conf:/etc/mysql/conf.d/my.conf'
       - './initdb/:/docker-entrypoint-initdb.d/'
     networks:
       app-network: 
   app:
-    image: 'local/php:${PHP_VER}'
+    image: 'max26292/local-php:${PHP_VER}'
     environment: 
       DB_DATABASE: '${DB_DATABASE}'
       DB_PASSWORD: '${DB_PASSWORD}'
@@ -33,11 +33,11 @@ services:
     networks:
       app-network:
   web:
-    image: 'local/nginx:stable'
+    image: 'max26292/local-nginx:stable'
     # restart: unless-stopped
     tty: true
     ports:
-      - '81:80'
+      - '${WEB_PORT}:80'
     volumes:
       - ${SOURCE_PATH}:/var/www/html
       - ./config/nginx/:/etc/nginx/templates
