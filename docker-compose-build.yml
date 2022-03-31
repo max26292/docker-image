@@ -13,7 +13,12 @@ services:
       context: ./docker-file
       dockerfile: php-image.dockerfile
       args:
-        PHP_VER: '${PHP_VER}' 
+        PHP_VER: '${PHP_VER}'
+  node:
+    image: 'local-node-php:latest'
+    build:
+      context: ./docker-file
+      dockerfile: node.dockerfile
 networks:
   app-network:
     name: app-network

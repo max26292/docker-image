@@ -14,7 +14,8 @@ services:
       dockerfile: php-image.dockerfile
       args:
         PHP_VER: '${PHP_VER}' 
-networks:
-  app-network:
-    name: app-network
-    driver: bridge
+  node:
+    image: 'local-node-php:latest'
+    build:
+      context: ./docker-file
+      dockerfile: node.dockerfile
