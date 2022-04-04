@@ -43,11 +43,12 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
 # Clear cache
 && apt-get clean && rm -rf /var/lib/apt/lists/* \
 && pecl install xdebug \
+&& pecl install redis \
 #install and set extension
 && docker-php-ext-configure gd --with-freetype --with-jpeg \
 && docker-php-ext-install -j$(nproc) gd \
 && docker-php-ext-install pdo_mysql zip exif pcntl bcmath\ 
-&& docker-php-ext-enable xdebug \
+&& docker-php-ext-enable xdebug redis\
 && docker-php-ext-configure ldap && \
 docker-php-ext-install ldap \
 && chmod u+x /tmp/xdebug.sh && /tmp/xdebug.sh && chown ${USERNAME}:${USERNAME} $APP_HOME \
