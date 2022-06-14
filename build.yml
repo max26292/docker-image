@@ -20,7 +20,14 @@ services:
           - linux/arm64
           - linux/arm64/v8    
   node:
-    image: 'local-node-php:latest'
+    image: 'max26292/local-node-php:8.1'
     build:
       context: ./docker-file
       dockerfile: node.dockerfile
+      args:
+        PHP_VER: 8.1
+        NODE_VER: "16"
+      x-bake:
+        platforms:
+          - linux/amd64
+          - linux/arm64

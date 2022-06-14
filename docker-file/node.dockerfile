@@ -1,7 +1,9 @@
-FROM max26292/local-php:amd8.1
+ARG PHP_VER
+FROM max26292/local-php:${PHP_VER}
 USER root
 SHELL [ "/bin/bash","-c" ]
-RUN curl -sL https://deb.nodesource.com/setup_16.x -o /tmp/nodesource_setup.sh && bash /tmp/nodesource_setup.sh \
+ARG NODE_VER
+RUN curl -sL https://deb.nodesource.com/setup_${NODE_VER}.x -o /tmp/nodesource_setup.sh && bash /tmp/nodesource_setup.sh \
     && apt-get install nodejs \
     && rm -rf /var/list/apt/* \
     && rm -rf /var/lib/apt/lists/* \
