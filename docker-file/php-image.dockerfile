@@ -26,6 +26,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
       libzip-dev \
       libfreetype6-dev \
       libjpeg62-turbo-dev \
+      libwebp-dev \
     libpng-dev \
     && docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
     && docker-php-ext-configure intl \
@@ -45,7 +46,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
 && pecl install xdebug \
 && pecl install redis \
 #install and set extension
-&& docker-php-ext-configure gd --with-freetype --with-jpeg \
+&& docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
 && docker-php-ext-install -j$(nproc) gd \
 && docker-php-ext-install pdo_mysql zip exif pcntl bcmath\ 
 && docker-php-ext-enable xdebug redis\
