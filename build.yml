@@ -19,13 +19,13 @@ services:
           - linux/amd64
           - linux/arm64   
   node:
-    image: 'max26292/local-node-php:74.14'
+    image: 'max26292/local-node-php:74.12'
     build:
       context: ./docker-file
       dockerfile: node.dockerfile
       args:
         PHP_VER: 7.4
-        NODE_VER: 14
+        NODE_VER: 12
       x-bake:
         platforms:
           - linux/amd64

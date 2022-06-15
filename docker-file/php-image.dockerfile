@@ -13,6 +13,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
       nano \
       git \
       unzip \
+      zip \
       libicu-dev \
       libpng-dev \
       libldap2-dev\
@@ -21,7 +22,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
       libxml2 \
       libxml2-dev \
       libreadline-dev \
-      supervisor \
+      rsync \
       cron \
       libzip-dev \
       libfreetype6-dev \
