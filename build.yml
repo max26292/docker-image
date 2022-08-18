@@ -30,3 +30,12 @@ services:
         platforms:
           - linux/amd64
           - linux/arm64
+  rsync:
+    image: 'max26292/rsync:v1'
+    build:
+      context: ./docker-file
+      dockerfile: rsync.dockerfile
+      x-bake:
+        platforms:
+          - linux/amd64
+          - linux/arm64
