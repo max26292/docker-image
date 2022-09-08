@@ -9,6 +9,7 @@ ENV ENV=dev
 COPY ./config/php/xdebug.ini /tmp/
 COPY ./config/php/xdebug.sh /tmp/
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
+      jq \
       procps \
       nano \
       git \

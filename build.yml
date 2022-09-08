@@ -7,24 +7,24 @@ services:
       dockerfile: nginx.dockerfile
     image: 'max26292/local-nginx:stable'
   app:
-    image: 'max26292/local-php:7.4'
+    image: 'max26292/local-php:8.0'
     container_name: app_fpm
     build:
       context: ./docker-file
       dockerfile: php-image.dockerfile
       args:
-        PHP_VER: 7.4
+        PHP_VER: 8.0
       x-bake:
         platforms:
           - linux/amd64
           - linux/arm64   
   node:
-    image: 'max26292/local-node-php:74.16'
+    image: 'max26292/local-node-php:80.16'
     build:
       context: ./docker-file
       dockerfile: node.dockerfile
       args:
-        PHP_VER: 7.4
+        PHP_VER: '8.0'
         NODE_VER: 16
       x-bake:
         platforms:
