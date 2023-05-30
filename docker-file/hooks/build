@@ -1,7 +1,9 @@
-#!/bin/bash
-echo $DOCKER_TAG
-echo $IMAGE_NAME
-configs=(${$DOCKER_TAG//_/ })
-echo "${configs[0]}"
-echo "con 1:${configs[1]}"
+#!/bin/dash
+echo "Tag: ${DOCKER_TAG}"
+echo  "Name: ${IMAGE_NAME}"
+phpVer=${DOCKER_TAG%_*}
+nodeVer=${DOCKER_TAG#"$phpVer"}
+nodeVer=${nodeVer#_}
+echo "php ver: ${phpVer}"
+echo "node ver: ${nodeVer}"
 # docker build --build-arg PHP_VER="${configs[0]}" NODE_VER="${configs[1]}" -f $DOCKERFILE_PATH -t $IMAGE_NAME .
