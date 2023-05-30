@@ -59,8 +59,7 @@ docker-php-ext-install ldap \
     mkdir -p /home/$USERNAME && chown $USERNAME:$USERNAME /home/$USERNAME \
     && usermod -u $UID $USERNAME -d /home/$USERNAME \
     && groupmod -g $GID $USERNAME \
-    && chown -R ${USERNAME}:${USERNAME} $APP_HOME \
-    && rm -rf /tmp/* 
+    && chown -R ${USERNAME}:${USERNAME} $APP_HOME
 
 COPY ./config/php/www.conf /usr/local/etc/php-fpm.d/www.conf
 COPY ./config/php/local.ini /usr/local/etc/php/php.ini
