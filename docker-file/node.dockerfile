@@ -11,6 +11,6 @@ RUN curl -sL https://deb.nodesource.com/setup_${NODE_VER}.x -o /tmp/nodesource_s
     && apt-get clean \
     && npm install -g npm \
     && npm install -g yarn
-EXPOSE 5173
+EXPOSE 5173 3000 
 USER ${USERNAME}
 ARG DATABASE_URL

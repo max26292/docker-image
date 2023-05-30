@@ -1,0 +1,2 @@
+#!/bin/dash
+docker buildx create --use
