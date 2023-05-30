@@ -5,7 +5,11 @@ services:
     build:
       context: ./docker-file
       dockerfile: nginx.dockerfile
-    image: 'max26292/local-nginx:stable'
+      x-bake:
+        platforms:
+          - linux/amd64
+          - linux/arm64
+    image: 'max26292/local-nginx:1.24'    
   app:
     image: 'max26292/local-php:8.1'
     container_name: app_fpm
@@ -17,10 +21,16 @@ services:
       x-bake:
         platforms:
           - linux/amd64
-          - linux/arm64
-          - linux/arm64/v8    
+          - linux/arm64   
   node:
-    image: 'local-node-php:latest'
+    image: 'local-node-php:${PHP_VER}_${NODE_VER}'
     build:
       context: ./docker-file
       dockerfile: node.dockerfile
+      args:
+        PHP_VER: ${PHP_VER}
+        NODE_VER: ${NODE_VER}
+      x-bake:
+        platforms:
+          - linux/amd64
+          - linux/arm64 
