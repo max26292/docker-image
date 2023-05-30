@@ -7,5 +7,5 @@ nodeVer=${nodeVer#_}
 echo "php ver: ${phpVer}"
 echo "node ver: ${nodeVer}"
 docker build ---build-arg PHP_VER="${phpVer}" \
- --build-arg=NODE_VER="${nodeVer}" \
+ --build-arg NODE_VER="${nodeVer}" \
  -f $DOCKERFILE_PATH -t $IMAGE_NAME .
