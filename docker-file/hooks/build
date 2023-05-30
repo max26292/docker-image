@@ -9,4 +9,5 @@ echo "node ver: ${nodeVer}"
 docker build --build-arg PHP_VER="${phpVer}" \
  --build-arg NODE_VER="${nodeVer}" \
  -f $DOCKERFILE_PATH -t $IMAGE_NAME . \
-  --platform=linux/amd64,linux/arm64
+  --platform=linux/amd64,linux/arm64 \
+  --builder=hoangbuilder
