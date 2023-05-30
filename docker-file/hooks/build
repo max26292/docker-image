@@ -1,3 +1,7 @@
 #!/bin/bash
-echo 8.1
-docker build --build-arg PHP_VER=7.4 -f $DOCKERFILE_PATH -t $IMAGE_NAME .
+echo $DOCKER_TAG
+echo $IMAGE_NAME
+configs=(${$DOCKER_TAG//_/ })
+echo "${configs[0]}"
+echo "con 1:${configs[1]}"
+# docker build --build-arg PHP_VER="${configs[0]}" NODE_VER="${configs[1]}" -f $DOCKERFILE_PATH -t $IMAGE_NAME .
