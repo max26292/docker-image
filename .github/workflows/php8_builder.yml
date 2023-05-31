@@ -2,7 +2,7 @@ name: php8 builder
 on:
     push:
         branches:
-            - 'docker-composer'
+            - 'docker-composerx'
 jobs:
     build:
         runs-on: ubuntu-lastest
