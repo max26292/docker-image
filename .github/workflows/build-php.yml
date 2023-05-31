@@ -1,12 +1,23 @@
 name: Build PHP docker
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: 
-  push:
-    branches:
-      - develop
+  workflow_dispatch:
+    inputs:
+      phpVersion:
+        description: Php version
+        required: true
+        default: "8.1"
+        type: choice
+        options:
+          - 8.1
+          - 8.0
+          - 7.4
+env: 
+  REGISTRY_IMAGE: max26292/local-php
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: php8
     strategy:
       fail-fast: false
       matrix:
@@ -21,9 +32,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          context: ./docker-file
-          images: ${{ env.REGISTRY_IMAGE }}
-          tags: 8.1
+          images: max26292/local-php
       -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -39,6 +48,8 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: ./docker-file
+          file: ./docker-file/php-image.dockerfile
+          tags: ${{inputs.phpVersion}}
           platforms: ${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
           outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true
@@ -91,4 +102,4 @@ jobs:
       -
         name: Inspect image
         run: |
-          docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }}
+          docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ inputs.phpVersion }}
