@@ -35,7 +35,7 @@ jobs:
         with:
           images: max26292/local-php
           tags: |
-            type=semver,pattern={{major}}.{{minor}},value=${{inputs.phpVersion}}
+            type=raw,value=${{inputs.phpVersion}}
       -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
