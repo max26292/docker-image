@@ -29,8 +29,8 @@ services:
       dockerfile: node.dockerfile
       args:
         PHP_VER: ${PHP_VER}
-        NODE_VER: ${NODE_VER}
+        NODE_VER: 16
       x-bake:
         platforms:
-          - linux/amd64
-          - linux/arm64 
+          - linux/arm64
+          # - linux/arm64 

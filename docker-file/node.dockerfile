@@ -1,10 +1,10 @@
 ARG PHP_VER
-ARG NODE_VER
 FROM max26292/local-php:${PHP_VER}
+ARG NODE_VER
 USER root
 SHELL [ "/bin/bash","-c" ]
 ENV USERNAME=www-data
-RUN curl -sL https://deb.nodesource.com/setup_${NODE_VER}.x -o /tmp/nodesource_setup.sh && bash /tmp/nodesource_setup.sh \
+RUN curl -fsSL https://deb.nodesource.com/setup_${NODE_VER}.x -o /tmp/nodesource_setup.sh && bash /tmp/nodesource_setup.sh \
     && apt-get install -y nodejs chromium\
     && rm -rf /var/list/apt/* \
     && rm -rf /var/lib/apt/lists/* \
