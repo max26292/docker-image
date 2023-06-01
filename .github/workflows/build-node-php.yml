@@ -62,7 +62,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: ./docker-file
-          file: ./docker-file/php-image.dockerfile
+          file: ./docker-file/node.dockerfile
           tags: ${{ steps.meta.outputs.tags }}
           platforms: ${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
