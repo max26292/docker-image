@@ -14,9 +14,10 @@ on:
           - 7.4
 env: 
   REGISTRY_IMAGE: max26292/local-php
+  runOn: ubuntu-latest
 jobs:
   build:
-    runs-on: hosted-local
+    runs-on: ubuntu-latest
     environment: php8
     strategy:
       fail-fast: false
@@ -68,7 +69,7 @@ jobs:
           if-no-files-found: error
           retention-days: 1
   merge:
-    runs-on: hosted-local
+    runs-on: ubuntu-latest
     needs:
       - build
     steps:
