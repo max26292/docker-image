@@ -54,7 +54,7 @@ jobs:
         with:
           context: ./docker-file
           file: ./docker-file/php-image.dockerfile
-          # tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ steps.meta.outputs.tags }}
           platforms: ${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
           outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push=true
