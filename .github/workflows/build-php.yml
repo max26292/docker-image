@@ -1,6 +1,9 @@
 name: Build PHP docker
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on:
+  push: 
+    branches:
+      - docker-compose
   workflow_dispatch:
     inputs:
       phpVersion:
@@ -24,6 +27,7 @@ jobs:
         platform:
           - linux/amd64
           - linux/arm64
+          - linux/arm64v8
     steps:
       - name: Checkout
         uses: actions/checkout@v3
