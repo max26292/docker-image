@@ -1,9 +1,17 @@
 name: Build PHP 8.1 docker
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on:
-  push: 
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      phpVersion:
+        description: Php version
+        required: true
+        default: "8.1"
+        type: choice
+        options:
+          - 8.1
+          - 8.0
+          - 7.4
 env:
   phpVersion: "8.1"
 jobs:

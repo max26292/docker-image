@@ -1,9 +1,6 @@
 name: Build PHP docker
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on:
-  push: 
-    branches:
-      - docker-compose
   workflow_dispatch:
     inputs:
       phpVersion:

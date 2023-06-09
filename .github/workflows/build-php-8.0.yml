@@ -135,6 +135,7 @@ jobs:
       REGISTRY_IMAGE: ${{ vars.DOCKER_USER }}/${{ vars.REGISTRY_NAME }}
     needs:
       - build
+      - build-arm
     steps:
       -
         name: Download digests
