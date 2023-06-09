@@ -1,4 +1,4 @@
-FROM nginx:stable
+FROM nginx:latest
 
 ARG APP_SERVICE
 RUN  ln -sf /dev/stdout /var/log/nginx/access.log && \
