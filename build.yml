@@ -1,0 +1,36 @@
+version: '3.8'
+#parent docker
+services:
+  web:
+    build:
+      context: ./docker-file
+      dockerfile: nginx.dockerfile
+      x-bake:
+        platforms:
+          - linux/amd64
+          - linux/arm64
+    image: 'max26292/local-nginx:1.24'    
+  app:
+    image: 'max26292/local-php:8.0'
+    container_name: app_fpm
+    build:
+      context: ./docker-file
+      dockerfile: php-image.dockerfile
+      args:
+        PHP_VER: 8.0
+      x-bake:
+        platforms:
+          - linux/amd64
+          - linux/arm64   
+  node:
+    image: 'local-node-php:${PHP_VER}_${NODE_VER}'
+    build:
+      context: ./docker-file
+      dockerfile: node.dockerfile
+      args:
+        PHP_VER: ${PHP_VER}
+        NODE_VER: 16
+      x-bake:
+        platforms:
+          - linux/arm64
+          # - linux/arm64 

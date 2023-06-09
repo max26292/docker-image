@@ -1,0 +1,25 @@
+version: '3.8'
+#parent docker
+services:
+  web:
+    build:
+      context: ./docker-file
+      dockerfile: nginx.dockerfile
+    image: 'max26292/local-nginx:stable'
+  app:
+    image: 'max26292/local-php:${PHP_VER}'
+    container_name: app_fpm
+    build:
+      context: ./docker-file
+      dockerfile: php-image.dockerfile
+      args:
+        PHP_VER: '${PHP_VER}'
+  node:
+    image: 'local-node-php:latest'
+    build:
+      context: ./docker-file
+      dockerfile: node.dockerfile
+networks:
+  app-network:
+    name: app-network
+    driver: bridge

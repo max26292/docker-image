@@ -1,0 +1,11 @@
+version: '3.8'
+#parent docker
+services:
+  redis:
+    image: 'redis:5.0.7'
+    networks:
+      app-network: 
+networks:
+  app-network:
+    name: app-network
+    driver: bridge

@@ -1,0 +1,2 @@
+#!/bin/dash
+docker buildx create --platform linux/arm64,linux/arm64 --name=hoangbuilder

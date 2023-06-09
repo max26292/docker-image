@@ -1,0 +1,8 @@
+dbdata/*
+DB-Engage/*
+./mysql
+./nginx
+./php
+./initdb/*
+!initdb
+dbdata-mysql/*
