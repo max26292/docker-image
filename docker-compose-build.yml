@@ -19,6 +19,9 @@ services:
     build:
       context: ./docker-file
       dockerfile: node.dockerfile
+      args:
+          PHP_VER: '${PHP_VER}'
+          NODE_VER: '${NODE_VER}'
 networks:
   app-network:
     name: app-network
