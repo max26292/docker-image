@@ -1,6 +1,7 @@
 ARG PHP_VER
 FROM max26292/local-php:${PHP_VER}
 ARG NODE_VER
+ENV USERNAME=www-data
 USER root
 SHELL [ "/bin/bash","-c" ]
 ENV USERNAME=www-data
