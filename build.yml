@@ -21,7 +21,8 @@ services:
       x-bake:
         platforms:
           - linux/amd64
-          - linux/arm64   
+          - linux/arm64
+          - linux/arm64v8   
   node:
     image: 'local-node-php:${PHP_VER}_${NODE_VER}'
     build:
@@ -29,8 +30,9 @@ services:
       dockerfile: node.dockerfile
       args:
         PHP_VER: ${PHP_VER}
-        NODE_VER: 16
+        NODE_VER: ${NODE_VER}
       x-bake:
         platforms:
-          - linux/arm64
-          # - linux/arm64 
+          - linux/amd64
+          - linux/arm64 
+          # - linux/arm64v8

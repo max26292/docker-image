@@ -10,5 +10,6 @@ RUN curl -fsSL https://deb.nodesource.com/setup_${NODE_VER}.x -o /tmp/nodesource
     && apt-get clean \
     && npm install -g npm \
     && npm install -g yarn
+USER ${USERNAME}
 EXPOSE 5173 3000 
 ARG DATABASE_URL
