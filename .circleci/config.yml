@@ -28,6 +28,6 @@ jobs:
             docker buildx bake -f build.yml app --push
 workflows:
   version: 2.1
-  build-and-push-multi-arch-image:
+  build-php-81:
     jobs:
-      - build
+      - build-php
