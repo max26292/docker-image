@@ -6,8 +6,6 @@ ENV USERNAME=www-data
 ARG UID=1000
 ARG GID=1000
 ENV ENV=dev
-COPY ./config/php/xdebug.ini /tmp/
-COPY ./config/php/xdebug.sh /tmp/
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
       jq \
       procps \
@@ -63,6 +61,7 @@ docker-php-ext-install ldap \
 
 COPY ./config/php/www.conf /usr/local/etc/php-fpm.d/www.conf
 COPY ./config/php/local.ini /usr/local/etc/php/php.ini
+COPY ./config/php/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 ARG DB_DATABASE
 ARG DB_PASSWORD
 ARG DB_USERNAME
