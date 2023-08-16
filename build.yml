@@ -11,18 +11,18 @@ services:
           - linux/arm64
     image: 'max26292/local-nginx:1.24'    
   app:
-    image: 'max26292/local-php:8.0'
+    image: 'max26292/local-php:${PHP_VER}'
     container_name: app_fpm
     build:
       context: ./docker-file
       dockerfile: php-image.dockerfile
       args:
-        PHP_VER: 8.0
+        PHP_VER: ${PHP_VER}
       x-bake:
         platforms:
           - linux/amd64
           - linux/arm64
-          - linux/arm64v8   
+          # - linux/arm64v8   
   node:
     image: 'local-node-php:${PHP_VER}_${NODE_VER}'
     build:
