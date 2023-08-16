@@ -1,4 +1,9 @@
 version: 2.1
+parameters:
+  action:
+    type: enum
+    enum: [php81, php82,php8,node81_16,node82_16,node8_16,node81_18,node82_18,node8_18]
+    default: build
 commands:
   setup:
     steps:
@@ -16,6 +21,7 @@ jobs:
   build-php:
     machine:
       image: ubuntu-2204
+      docker_layer_caching: true
     steps:
       - setup
       - run:
@@ -29,5 +35,8 @@ jobs:
 workflows:
   version: 2.1
   build-php-81:
+    when:
+      equal: [ php81, << pipeline.parameters.action >> ]
     jobs:
       - build-php
+      
