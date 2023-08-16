@@ -52,7 +52,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
 && docker-php-ext-enable xdebug redis\
 && docker-php-ext-configure ldap && \
 docker-php-ext-install ldap \
-&& chmod u+x /tmp/xdebug.sh && /tmp/xdebug.sh && chown ${USERNAME}:${USERNAME} $APP_HOME \
+&& chown ${USERNAME}:${USERNAME} $APP_HOME \
 && mkdir -p $APP_HOME/public && \
     mkdir -p /home/$USERNAME && chown $USERNAME:$USERNAME /home/$USERNAME \
     && usermod -u $UID $USERNAME -d /home/$USERNAME \
