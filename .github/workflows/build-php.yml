@@ -1,5 +1,5 @@
 name: Build PHP docker
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+run-name: ${{ github.actor }} is building PHP docker🚀
 on:
   workflow_dispatch:
     inputs:
