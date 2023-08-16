@@ -3,7 +3,7 @@ parameters:
   action:
     type: enum
     enum: [php81, php82,php8,node81_16,node82_16,node8_16,node81_18,node82_18,node8_18]
-    default: build
+    default: php81
 commands:
   setup:
     steps:
