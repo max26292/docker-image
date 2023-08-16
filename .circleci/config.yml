@@ -38,5 +38,6 @@ workflows:
     when:
       equal: [ php81, << pipeline.parameters.action >> ]
     jobs:
-      - build-php
+      - build-php:
+          context: php81
       
