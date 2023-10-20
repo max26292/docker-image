@@ -12,6 +12,7 @@ on:
           - 8.1
           - 8.0
           - 7.4
+          - 8.2
 env:
   phpVersion: "8.1"
 jobs:
