@@ -36,3 +36,12 @@ services:
           - linux/amd64
           - linux/arm64 
           # - linux/arm64v8
+  proxy:
+    image: 'europe-west6-docker.pkg.dev/mern-app-310602/strapi/nginx-proxy'
+    build:
+      context: ./docker-file
+      dockerfile: proxy.dockerfile
+      x-bake:
+        platforms:
+          - linux/amd64
+          # - linux/arm64

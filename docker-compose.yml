@@ -2,7 +2,9 @@ version: '3.8'
 #parent docker
 services:
   redis:
-    image: 'redis:5.0.7'
+    image: 'europe-west6-docker.pkg.dev/mern-app-310602/strapi/nginx-proxy'
+    ports:
+      - "8080:8080"
     networks:
       app-network: 
 networks:
