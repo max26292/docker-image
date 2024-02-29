@@ -1,0 +1,100 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  annotations:
+    run.googleapis.com/ingress: all
+    run.googleapis.com/ingress-status: all
+    run.googleapis.com/launch-stage: BETA
+    run.googleapis.com/description: sample tutorial service
+  labels:
+    client: tstor
+    cloud.googleapis.com/location: europe-west1
+  name: cms-tstor-staging
+  namespace: '476477037858'
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/maxScale: '5'
+        run.googleapis.com/cloudsql-instances: mern-app-310602:europe-west6:strapi-database
+        run.googleapis.com/container-dependencies: '{"nginx-proxy-1":["app"]}'
+        run.googleapis.com/startup-cpu-boost: 'false'
+      labels:
+        client: tstor
+    spec:
+      containerConcurrency: 80      
+      containers:
+      - image: europe-west6-docker.pkg.dev/mern-app-310602/strapi/nginx-proxy:latest
+        name: nginx-proxy-1
+        ports:
+        - containerPort: 1237
+          name: h2c
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+        startupProbe:
+          failureThreshold: 1
+          periodSeconds: 240
+          tcpSocket:
+            port: 1237
+          timeoutSeconds: 240
+      - image: eu.gcr.io/mern-app-310602/cms-tstor-staging:1234
+        name: app
+        env:
+          - name: DATABASE_CLIENT
+            value: mysql_socket
+          - name: DATABASE_NAME
+            value: cms_tstor_staging
+          - name: DATABASE_USERNAME
+            value: cms_tstor_staging
+          - name: DATABASE_PASSWORD
+            value: 6dokFPbRKX8RIu9p
+          - name: DATABASE_SSL
+            value: 'false'
+          - name: UNIX_SOCKET
+            value: /cloudsql/mern-app-310602:europe-west6:strapi-database
+          - name: GCS_SERVICE_ACCOUNT
+            value: |
+              {
+                "type": "service_account",
+                "project_id": "mern-app-310602",
+                "private_key_id": "ff0fd16bfb9eb2d7ce01ae7fd4733eacb4c96d31",
+                "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEugIBADANBgkqhkiG9w0BAQEFAASCBKQwggSgAgEAAoIBAQC5Qk4101i/7fRr\nNQyRPEU2cc4eyxJrrnu/wpXcFQkYE6b4fz2h3jzSTgVCSDJwBOu6Y0tw+LxRrjyR\nqQaItsyD9Cnd8qtfqUFyZWUWT6yngUar+5nuVkj9gUDtLQ48RvU3H83mxUhbjtFN\nSmns3+EL2gufhoXve9ePkhtRt4uD8VQbr0stGxhgmduys47aTPmjKCKc0THzre0w\n7XVluVVSWysGqRjvKljXE9KxhVHTxxH64GgkFoEFgHI1eIWQ8mm4xXiHzCnsjtfO\n8+MzzO1INcHNB7qehjl2ua63bX6VgZlkDG9C2q3YRGnmejmvRLg4DV+fE39vP12Q\nn34d2lH5AgMBAAECggEAB5Nmj1ztLCwW6qtosCe+zNMqkqfLQQwJk3Xpmu5hSNLE\n6TSK2Ku14QO/w04ggeQxn5Wf6CbDzLNLVsmKstyG0H6Tl7fsuiS5wGvVDmyDqvXm\nZfIMAWsV4QgAF7LX+i8MqAxs5xr6MoRMmtSIMF+XXFy2TPe7UmfGEODwrQ7MbcDG\n2AxuGElAX2OOHCmrFb/HXwi+u060kVXDCIoBmP0l9VtVXrCWaBHeOUzyUkyCzjNz\nlGSkYUCQAIHLcGEPe/x2QwWW1YjJsv1rqX4ETxa90IV2PTPUCv69WnQk58DwUb2g\nNY3qud8abYjMii4NiKVBB9kFyrUXYTnsHTEEhRCu4QKBgQDZ5d1E3qGcD0soXyCI\nPKGoJqSSqRzQ1ieG1Avx5ynf3kdqxpvel7tgPZwTDjJivEJEAd/5k8c2Hhqlv1mO\n8DRY4Pc7t4+gJc7KIhrQPVvodneaZ2hhRBg18M2gJNjmIPA+rn9LzFZTgtxzZ5hi\nmaKosae4eVj8hnvoTrVQ4enpywKBgQDZp17PmW0yIY2aIrAi8jgzy/o5Nm7Z2g4B\np0oAiJ1QiJYqRx/Ydr0UkkmNRjSktRstgohhxhgm4qQVnW2v12Lp605xPlB65WbF\n8jpVuQQJeYyZxPKGjV0rJX4TjKxHMkfOj4V4TpreF/aqjq6q4u5RhW/QDoccq4E6\ngBZV6zQKywJ/OC0K3raG87T9q2ra+ESpaLCNvUHcK/sKNbh1W+g843pq7xxFEx4L\nMMSxeDgwxUPD0cSp+a4frdQVCqZKcI98720QUFUCskcNCQ/B2e33w/bG3wfJ4Ums\n9DsgyCi3wpy7U22pY+FKYD1cmGQc5U62oMcsdmLSjkgdqcag+DlGFQKBgFWbiCYd\nUZ7DJb/3XtIP9V0iIKQ6LbWQF6w80VWOZlnTr0SnvvXUFiCuPTHM6E3UUgE/c0cJ\ntFwvDpzV09uy2tvoymyuNtdvvVGkKZ+n6teTMGMW3NFhbsDWuVUVInnKZAXx22xr\ndmxefo2tGzRpl5UG5+isniX/qw+Ia8CVh12rAoGAXRSH3QJX5PtIy8pF7eVv+spd\n3TF0lfA2gu2MmPRiv5klZCw/LdXI2jj6K4Vnd6cyhoVcFlM5X6iM06KV6CtzaU46\nKNXIU6HqsoSwNW4jw5ktdJtKHwEqvYcNl/Dd2vd5NwNu7ZcuA2/59LyKMUwi7TBV\nSbiINFwp8F0CGBjvM6Q=\n-----END PRIVATE KEY-----\n",
+                "client_email": "tstor-bucket-staging@mern-app-310602.iam.gserviceaccount.com",
+                "client_id": "112836469163345616051",
+                "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+                "token_uri": "https://oauth2.googleapis.com/token",
+                "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+                "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/tstor-bucket-staging%40mern-app-310602.iam.gserviceaccount.com",
+                "universe_domain": "googleapis.com"
+              }
+          - name: GCS_BASE_URL
+            value: https://tstor-bucket-staging.deployco.de
+          - name: GCS_BUCKET_NAME
+            value: tstor-bucket-staging.deployco.de
+          - name: UPLOAD_PROVIDER
+            value: gcs
+          - name: ENABLE_PLAYGROUND
+            value: 'true'
+          - name: GCS_BASE_PATH
+            value: uploads
+          - name: GCS_SECRET_KEY
+            value: QesOhQuZLuj6sCTUOzn2uUazAtqsFkOdiPtWzNXA
+          - name: GCS_ACCESS_KEY
+            value: GOOG1EH3M4LOMD5GDTYGMIHXVZK56A7YYRQDDOTKKRG42YEYCO2ZKK2YV7AYO
+        resources:
+          limits:
+            cpu: 4000m
+            memory: 4096Mi
+        startupProbe:
+          failureThreshold: 1
+          periodSeconds: 240
+          tcpSocket:
+            port: 1337
+          timeoutSeconds: 240
+      serviceAccountName: gitlab-runner-service@mern-app-310602.iam.gserviceaccount.com
+      timeoutSeconds: 3600
+  traffic:
+  - latestRevision: true
+    percent: 100

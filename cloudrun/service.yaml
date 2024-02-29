@@ -1,0 +1,57 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  annotations:
+    run.googleapis.com/launch-stage: BETA
+    run.googleapis.com/description: sample tutorial service
+    run.googleapis.com/ingress: all
+    run.googleapis.com/ingress-status: all
+  labels:
+    cloud.googleapis.com/location: europe-west1
+  name: test-proxy
+  namespace: '476477037858'
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/maxScale: '5'
+        run.googleapis.com/container-dependencies: '{"nginx-proxy-1":["main-app"]}'
+        run.googleapis.com/startup-cpu-boost: 'true'
+    spec:
+      containerConcurrency: 80
+      containers:
+      - image: europe-west6-docker.pkg.dev/mern-app-310602/strapi/nginx-proxy:latest
+        name: nginx-proxy-1
+        ports:
+        - containerPort: 1237
+          name: h2c
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+        startupProbe:
+          failureThreshold: 1
+          periodSeconds: 240
+          tcpSocket:
+            port: 1237
+          timeoutSeconds: 240
+      - image: us-docker.pkg.dev/cloudrun/container/hello
+        name: main-app
+        env:
+          - name: PORT
+            value: "1337"
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+        startupProbe:
+          failureThreshold: 1
+          periodSeconds: 240
+          tcpSocket:
+            port: 1337
+          timeoutSeconds: 240
+      serviceAccountName: 476477037858-compute@developer.gserviceaccount.com
+      timeoutSeconds: 240
+  traffic:
+  - latestRevision: true
+    percent: 100
