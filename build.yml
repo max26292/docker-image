@@ -22,7 +22,18 @@ services:
         platforms:
           - linux/amd64
           - linux/arm64
-          # - linux/arm64v8   
+          # - linux/arm64v8 
+  webapp:
+    image: 'max26292/local-nginx-fpm:${PHP_VER}'
+    build:
+      context: ./docker-file
+      dockerfile: nginx-php.dockerfile    
+      args:
+        PHP_VER: '${PHP_VER}'
+      x-bake:
+        platforms:
+          - linux/amd64
+          - linux/arm64
   node:
     image: 'local-node-php:${PHP_VER}_${NODE_VER}'
     build:
