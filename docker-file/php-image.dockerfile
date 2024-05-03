@@ -21,6 +21,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
       libxml2 \
       libxml2-dev \
       libreadline-dev \
+      libmemcached-dev libssl-dev \
       rsync \
       cron \
       libzip-dev \
@@ -36,7 +37,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
       intl \
       opcache \
       zip \
-      mysqli \   
+      mysqli \
     && rm -rf /var/list/apt/* \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean \
@@ -44,12 +45,12 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
 # Clear cache
 && apt-get clean && rm -rf /var/lib/apt/lists/* \
 && pecl install xdebug \
-&& pecl install redis \
+&& pecl install redis memcached\
 #install and set extension
 && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
 && docker-php-ext-install -j$(nproc) gd \
 && docker-php-ext-install pdo_mysql zip exif pcntl bcmath\ 
-&& docker-php-ext-enable xdebug redis\
+&& docker-php-ext-enable xdebug redis memcached\
 && docker-php-ext-configure ldap && \
 docker-php-ext-install ldap \
 && chown ${USERNAME}:${USERNAME} $APP_HOME \

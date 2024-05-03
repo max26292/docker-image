@@ -5,8 +5,8 @@ RUN apt-get update && apt-get install -y nginx gettext supervisor\
     && rm -rf /var/list/apt/* \
         && rm -rf /var/lib/apt/lists/* \
         && apt-get remove --purge --auto-remove -y && rm -rf /var/lib/apt/lists/* /etc/apt/sources.list.d/nginx.list \
-        && apt-get clean
-RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
+        && apt-get clean && \
+     ln -sf /dev/stdout /var/log/nginx/access.log && \
     ln -sf /dev/stderr /var/log/nginx/error.log && \
     rm -rf /etc/nginx/conf.d/* \
     && rm -rdf /etc/nginx/sites-available/* \
