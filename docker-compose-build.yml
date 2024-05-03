@@ -6,9 +6,15 @@ services:
       context: ./docker-file
       dockerfile: nginx.dockerfile
     image: 'max26292/local-nginx:stable'
+  webapp:
+    image: 'max26292/local-nginx-fpm:${PHP_VER}'
+    build:
+      context: ./docker-file
+      dockerfile: nginx-php.dockerfile    
+      args:
+        PHP_VER: '${PHP_VER}'
   app:
     image: 'max26292/local-php:${PHP_VER}'
-    container_name: app_fpm
     build:
       context: ./docker-file
       dockerfile: php-image.dockerfile
