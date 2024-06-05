@@ -1,4 +1,4 @@
-name: Build PHP docker
+name: Build PHP Nginx docker
 run-name: ${{ github.actor }} is building PHP docker🚀
 on:
   workflow_dispatch:
