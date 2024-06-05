@@ -44,22 +44,22 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
 && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
 # Clear cache
 && apt-get clean && rm -rf /var/lib/apt/lists/* \
-&& pecl install xdebug \
-&& pecl install redis memcached\
 #install and set extension
+&& docker-php-source extract \
+&& pecl install xdebug memcached redis mongodb \
+&& docker-php-ext-enable xdebug redis memcached mongodb\
 && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
-&& docker-php-ext-install -j$(nproc) gd \
+&& docker-php-ext-install -j$(nproc) gd\
 && docker-php-ext-install pdo_mysql zip exif pcntl bcmath\ 
-&& docker-php-ext-enable xdebug redis memcached\
-&& docker-php-ext-configure ldap && \
-docker-php-ext-install ldap \
+&& docker-php-ext-configure ldap \
+&& docker-php-ext-install ldap \
+&& docker-php-source delete\
 && chown ${USERNAME}:${USERNAME} $APP_HOME \
 && mkdir -p $APP_HOME/public && \
     mkdir -p /home/$USERNAME && chown $USERNAME:$USERNAME /home/$USERNAME \
     && usermod -u $UID $USERNAME -d /home/$USERNAME \
     && groupmod -g $GID $USERNAME \
     && chown -R ${USERNAME}:${USERNAME} $APP_HOME
-
 COPY ./config/php/www.conf /usr/local/etc/php-fpm.d/www.conf
 COPY ./config/php/local.ini /usr/local/etc/php/php.ini
 COPY ./config/php/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
