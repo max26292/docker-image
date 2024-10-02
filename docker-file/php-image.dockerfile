@@ -29,6 +29,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
       libjpeg62-turbo-dev \
       libwebp-dev \
     libpng-dev \
+    libgmp-dev \
     && docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
     && docker-php-ext-configure intl \
     && docker-php-ext-install \
@@ -46,11 +47,11 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
 && apt-get clean && rm -rf /var/lib/apt/lists/* \
 #install and set extension
 && docker-php-source extract \
-&& pecl install xdebug memcached redis mongodb \
-&& docker-php-ext-enable xdebug redis memcached mongodb\
+&& pecl install xdebug memcached redis mongodb opentelemetry\
+&& docker-php-ext-enable xdebug redis memcached mongodb opentelemetry\
 && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
 && docker-php-ext-install -j$(nproc) gd\
-&& docker-php-ext-install pdo_mysql zip exif pcntl bcmath\ 
+&& docker-php-ext-install pdo_mysql zip exif pcntl bcmath gmp\ 
 && docker-php-ext-configure ldap \
 && docker-php-ext-install ldap \
 && docker-php-source delete\
