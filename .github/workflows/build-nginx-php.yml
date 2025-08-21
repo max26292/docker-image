@@ -91,7 +91,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: php8
     env:
-      REGISTRY_IMAGE: ${{ vars.DOCKER_USER }}//local-nginx-fpm
+      REGISTRY_IMAGE: ${{ vars.DOCKER_USER }}/local-nginx-fpm
     needs:
       - build
     steps:
