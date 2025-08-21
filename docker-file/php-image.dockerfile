@@ -47,8 +47,8 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
 && apt-get clean && rm -rf /var/lib/apt/lists/* \
 #install and set extension
 && docker-php-source extract \
-&& pecl install xdebug memcached redis mongodb opentelemetry\
-&& docker-php-ext-enable xdebug redis memcached mongodb opentelemetry\
+&& pecl install xdebug memcached redis mongodb \
+&& docker-php-ext-enable xdebug redis memcached mongodb \
 && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
 && docker-php-ext-install -j$(nproc) gd\
 && docker-php-ext-install pdo_mysql zip exif pcntl bcmath gmp\ 
